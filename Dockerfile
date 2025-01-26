@@ -14,3 +14,9 @@ COPY --from=build /usr/src/app /work
 WORKDIR /work/apps/api
 EXPOSE 3000
 CMD [ "pnpm", "start" ]
+
+FROM base AS api2
+COPY --from=build /usr/src/app /work
+WORKDIR /work/apps/api2
+EXPOSE 3000
+CMD [ "pnpm", "start" ]
