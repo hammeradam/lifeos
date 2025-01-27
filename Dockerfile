@@ -20,3 +20,14 @@ COPY --from=build /usr/src/app /work
 WORKDIR /work/apps/api2
 EXPOSE 3000
 CMD [ "pnpm", "start" ]
+
+FROM base AS build_web
+COPY --from=build /usr/src/app /work
+WORKDIR /work/apps/web
+RUN pnpm run build
+
+FROM nginx:stable-alpine AS web
+COPY --from=build_web /work/apps/web/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;error_log /dev/stdout debug;"]
