@@ -64,4 +64,5 @@ jobs:
         uses: distributhor/workflow-webhook@v3
         with:
           webhook_url: https://bossman.ahammer.work/api/v1/deploy?uuid=vc0o800gkwggc0ow0k4k4ow8&force=false
+          webhook_auth_type: "bearer"
           webhook_secret: ${{ secrets.COOLIFY_TOKEN }}
