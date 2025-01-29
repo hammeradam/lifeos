@@ -22,7 +22,7 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-      # 
+    environment: production
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -59,4 +59,9 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}/${{ env.SERVICE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-      
+
+      - name: Invoke deployment hook
+        uses: distributhor/workflow-webhook@v3
+        with:
+          webhook_url: https://bossman.ahammer.work/api/v1/deploy?uuid=vc0o800gkwggc0ow0k4k4ow8&force=false
+          webhook_secret: ${{ secrets.COOLIFY_TOKEN }}
