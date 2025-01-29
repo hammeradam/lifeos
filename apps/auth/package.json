@@ -1,5 +1,5 @@
 {
-	"name": "@repo/api",
+	"name": "@repo/auth",
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",

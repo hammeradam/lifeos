@@ -1,11 +1,15 @@
 import { serve } from '@hono/node-server';
-import { Hono } from 'hono';
 import { TEST } from '@repo/test';
+import { Hono } from 'hono';
 
 const app = new Hono();
 
 app.get('/', (c) => {
   return c.text(TEST);
+});
+
+app.get('/ping', (c) => {
+  return c.text('pong');
 });
 
 const port = 3000;
