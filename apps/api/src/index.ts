@@ -5,6 +5,7 @@ import { auth } from './auth.ts';
 import { env } from './env.ts';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { pool } from './db.ts';
 
 export const ASD = 'ASD';
 
@@ -30,7 +31,16 @@ const port = env.PORT;
 
 console.log(`Server is running on port ${port}`);
 
-serve({
+const server = serve({
   fetch: app.fetch,
   port,
+});
+
+process.on('SIGINT', async () => {
+  console.log('shutting down server');
+
+  server.close(async () => {
+    await pool.end();
+    process.exit(0);
+  });
 });
