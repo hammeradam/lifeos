@@ -10,7 +10,7 @@ function HomeComponent() {
   const { data, isPending } = authClient.useSession();
 
   const testApi = async () => {
-    const response = await fetch('/api/auth/ping');
+    const response = await fetch('/api/me');
     const data = await response.text();
     console.log(data);
   };

@@ -69,7 +69,7 @@ export const accountTable = pgTable(
   ],
 );
 
-export const verification = pgTable('verification', {
+export const verificationTable = pgTable('verification', {
   id: text().primaryKey().notNull(),
   identifier: text().notNull(),
   value: text().notNull(),
