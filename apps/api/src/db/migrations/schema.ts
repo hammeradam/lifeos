@@ -7,7 +7,7 @@ import {
   foreignKey,
 } from 'drizzle-orm/pg-core';
 
-export const user = pgTable(
+export const userTable = pgTable(
   'user',
   {
     id: text().primaryKey().notNull(),
@@ -21,7 +21,7 @@ export const user = pgTable(
   (table) => [unique('user_email_key').on(table.email)],
 );
 
-export const session = pgTable(
+export const sessionTable = pgTable(
   'session',
   {
     id: text().primaryKey().notNull(),
@@ -36,14 +36,14 @@ export const session = pgTable(
   (table) => [
     foreignKey({
       columns: [table.userId],
-      foreignColumns: [user.id],
+      foreignColumns: [userTable.id],
       name: 'session_userId_fkey',
     }),
     unique('session_token_key').on(table.token),
   ],
 );
 
-export const account = pgTable(
+export const accountTable = pgTable(
   'account',
   {
     id: text().primaryKey().notNull(),
@@ -63,7 +63,7 @@ export const account = pgTable(
   (table) => [
     foreignKey({
       columns: [table.userId],
-      foreignColumns: [user.id],
+      foreignColumns: [userTable.id],
       name: 'account_userId_fkey',
     }),
   ],
