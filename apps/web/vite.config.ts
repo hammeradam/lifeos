@@ -5,6 +5,12 @@ import { envSchema } from './src/env';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  if (mode === 'production') {
+    return {
+      plugins: [TanStackRouterVite({}), react()],
+    };
+  }
+
   const env = envSchema.parse(loadEnv(mode, process.cwd(), ''));
 
   return {
