@@ -1,19 +1,21 @@
-import react from '@vitejs/plugin-react-swc';
 import { defineConfig, loadEnv } from 'vite';
-import { envSchema } from './env';
+import react from '@vitejs/plugin-react';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+import { envSchema } from './src/env';
 
+// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = envSchema.parse(loadEnv(mode, process.cwd(), ''));
 
   return {
-    plugins: [react()],
+    plugins: [TanStackRouterVite({}), react()],
     server: {
       proxy: {
-        [env.AUTH_SERVICE_PATH_PREFIX]: {
-          target: env.AUTH_SERVICE_TARGET,
+        [env.API_PATH_PREFIX]: {
+          target: env.API_TARGET,
           changeOrigin: true,
           rewrite: (path) =>
-            path.replace(new RegExp(`^${env.AUTH_SERVICE_PATH_PREFIX}`), ''),
+            path.replace(new RegExp(`^${env.API_PATH_PREFIX}`), ''),
         },
       },
     },
