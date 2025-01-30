@@ -14,7 +14,7 @@ function HomeComponent() {
     const data = await response.text();
     console.log(data);
   };
-
+  console.log(data);
   return (
     <div className="p-2">
       <h3>Welcome Home!</h3>
