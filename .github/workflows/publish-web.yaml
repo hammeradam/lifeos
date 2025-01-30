@@ -11,6 +11,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   SERVICE_NAME: web
+  VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:

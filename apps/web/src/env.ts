@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
 export const envSchema = z.object({
-  API_PATH_PREFIX: z.string(),
-  API_TARGET: z.string(),
+  VITE_API_BASE_URL: z.string(),
 });

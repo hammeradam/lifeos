@@ -1,7 +1,12 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import { envSchema } from './src/env';
+import { z } from 'zod';
+
+export const envSchema = z.object({
+  API_PATH_PREFIX: z.string(),
+  API_TARGET: z.string(),
+});
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
