@@ -7,17 +7,18 @@ export const Route = createFileRoute('/')({
 });
 
 function HomeComponent() {
-  const { data } = authClient.useSession();
+  const { data, isPending } = authClient.useSession();
 
   const testApi = async () => {
     const response = await fetch('/api/auth/ping');
     const data = await response.text();
     console.log(data);
   };
-  console.log(data);
+
   return (
     <div className="p-2">
       <h3>Welcome Home!</h3>
+      {isPending && <p>Loading...</p>}
       {data ? (
         <div>
           <p>Logged in as: {data.user.email}</p>
