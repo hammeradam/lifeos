@@ -7,13 +7,12 @@
 		".": "./src/index.ts"
 	},
 	"scripts": {
-		"dev": "node --env-file=.env --watch --experimental-strip-types src/index.ts",
-		"start": "drizzle-kit migrate && node --experimental-strip-types src/index.ts"
+		"dev": "node --env-file=.env --watch src/index.ts",
+		"start": "drizzle-kit migrate && node src/index.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.7",
 		"@repo/test": "workspace:*",
-		"@types/node": "^22.10.10",
 		"better-auth": "^1.1.15",
 		"drizzle-orm": "^0.39.1",
 		"hono": "^4.6.19",
@@ -21,6 +20,7 @@
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {
+		"@types/node": "^22.12.0",
 		"@types/pg": "^8.11.11",
 		"drizzle-kit": "^0.30.4",
 		"typescript": "^5.7.3"
