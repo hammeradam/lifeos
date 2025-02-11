@@ -6,13 +6,18 @@ export const Route = createFileRoute('/_auth/')({
   component: HomeComponent,
 });
 
+// const API_URL = 'http://localhost:3000/me';
+const API_URL = 'https://api.lifeos.ahammer.work/me';
+
 function HomeComponent() {
   const { data, isPending } = authClient.useSession();
   const [test, setTest] = useState(null);
   const navigate = useNavigate();
 
   const testApi = async () => {
-    const response = await fetch('https://api.lifeos.ahammer.work/me');
+    const response = await fetch(API_URL, {
+      credentials: 'include',
+    });
     const data = await response.json();
     setTest(data);
   };
