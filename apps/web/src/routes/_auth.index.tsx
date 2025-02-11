@@ -12,7 +12,7 @@ function HomeComponent() {
   const navigate = useNavigate();
 
   const testApi = async () => {
-    const response = await fetch('/api/me');
+    const response = await fetch('https://api.lifeos.ahammer.work/me');
     const data = await response.json();
     setTest(data);
   };
