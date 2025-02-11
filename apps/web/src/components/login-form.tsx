@@ -15,14 +15,12 @@ import {
   useRouter,
 } from '@tanstack/react-router';
 import { Route } from '@/routes/login';
+import { authClient } from '@/auth';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
-  const context = useRouteContext({
-    from: '/login',
-  });
   const navigate = useNavigate();
   const { redirect: redirectTo } = Route.useSearch();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +29,7 @@ export function LoginForm({
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    const response = await context.auth.signIn.email({ email, password });
+    const response = await authClient.signIn.email({ email, password });
     console.log(response, redirectTo);
     if (response.data) {
       navigate({

@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { authClient } from '../auth';
+import { authClient } from '@/auth';
 
 export const Route = createFileRoute('/_auth/')({
   component: HomeComponent,

@@ -1,8 +1,9 @@
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import { z } from 'zod';
 import path from 'node:path';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+import react from '@vitejs/plugin-react';
+import { type UserConfig, defineConfig, loadEnv } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+import { z } from 'zod';
 
 export const envSchema = z.object({
   API_PATH_PREFIX: z.string(),
@@ -11,17 +12,42 @@ export const envSchema = z.object({
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  if (mode === 'production') {
-    return {
-      plugins: [TanStackRouterVite({}), react()],
-    };
-  }
+  const config: UserConfig = {
+    plugins: [
+      TanStackRouterVite({}),
+      react(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        devOptions: {
+          enabled: true,
+        },
+        includeAssets: ['favicon.ico'],
+        manifest: {
+          name: 'My PWA App',
+          short_name: 'PWA',
+          description: 'My Awesome PWA',
+          theme_color: '#ffffff',
+          icons: [
+            {
+              src: '/icon-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: '/icon-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
+      }),
+    ],
+  };
 
-  const env = envSchema.parse(loadEnv(mode, process.cwd(), ''));
+  if (mode === 'development') {
+    const env = envSchema.parse(loadEnv(mode, process.cwd(), ''));
 
-  return {
-    plugins: [TanStackRouterVite({}), react()],
-    server: {
+    config.server = {
       proxy: {
         [env.API_PATH_PREFIX]: {
           target: env.API_TARGET,
@@ -30,11 +56,14 @@ export default defineConfig(({ mode }) => {
             path.replace(new RegExp(`^${env.API_PATH_PREFIX}`), ''),
         },
       },
-    },
-    resolve: {
+    };
+
+    config.resolve = {
       alias: {
         '@': path.resolve(__dirname, './src'),
       },
-    },
-  };
+    };
+  }
+
+  return config;
 });

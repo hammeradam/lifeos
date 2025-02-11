@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 import './index.css';
-import { authClient } from './auth';
+// import { authClient } from './auth';
 
 // Set up a Router instance
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   scrollRestoration: true,
-  context: {
-    auth: authClient,
-  },
+  // context: {
+  //   // auth: authClient,
+  // },
 });
 
 // Register things for typesafety

@@ -1,10 +1,10 @@
+import { authClient } from '@/auth';
 import {
   Link,
   Outlet,
   createFileRoute,
   useRouter,
 } from '@tanstack/react-router';
-import { authClient } from '@/auth';
 
 export const Route = createFileRoute('/_auth/about')({
   component: AuthLayout,
