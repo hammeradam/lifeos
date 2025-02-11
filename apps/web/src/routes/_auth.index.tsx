@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { authClient } from '@/auth';
 
 export const Route = createFileRoute('/_auth/')({
@@ -7,6 +7,7 @@ export const Route = createFileRoute('/_auth/')({
 
 function HomeComponent() {
   const { data, isPending } = authClient.useSession();
+  const navigate = useNavigate();
 
   const testApi = async () => {
     const response = await fetch('/api/me');
@@ -25,7 +26,16 @@ function HomeComponent() {
         <button type="button" onClick={testApi}>
           Test API
         </button>
-        <button type="button" onClick={() => authClient.signOut()}>
+        <button
+          type="button"
+          onClick={async () => {
+            await authClient.signOut();
+
+            navigate({
+              from: '/login',
+            });
+          }}
+        >
           Sign Out
         </button>
       </div>
