@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { authClient } from '@/auth';
 
 export const Route = createFileRoute('/_auth/')({
@@ -7,12 +8,13 @@ export const Route = createFileRoute('/_auth/')({
 
 function HomeComponent() {
   const { data, isPending } = authClient.useSession();
+  const [test, setTest] = useState(null);
   const navigate = useNavigate();
 
   const testApi = async () => {
     const response = await fetch('/api/me');
-    const data = await response.text();
-    console.log(data);
+    const data = await response.json();
+    setTest(data);
   };
 
   console.log(data);
@@ -21,6 +23,7 @@ function HomeComponent() {
     <div className="p-2">
       <h3>Welcome Home!</h3>
       {isPending && <p>Loading...</p>}
+      <Link to="/about">about</Link>
       <div>
         {/* <p>Logged in as: {data!.user.email}</p> */}
         <button type="button" onClick={testApi}>
@@ -32,12 +35,15 @@ function HomeComponent() {
             await authClient.signOut();
 
             navigate({
-              from: '/login',
+              to: '/login',
             });
           }}
         >
           Sign Out
         </button>
+        <code>
+          <pre>{JSON.stringify(test, null, 2)}</pre>
+        </code>
       </div>
     </div>
   );
