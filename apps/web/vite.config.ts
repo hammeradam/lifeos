@@ -44,6 +44,11 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
   };
 
   if (mode === 'development') {
@@ -57,12 +62,6 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) =>
             path.replace(new RegExp(`^${env.API_PATH_PREFIX}`), ''),
         },
-      },
-    };
-
-    config.resolve = {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
       },
     };
   }
