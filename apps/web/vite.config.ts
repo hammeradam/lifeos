@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import { z } from 'zod';
+import path from 'node:path';
 
 export const envSchema = z.object({
   API_PATH_PREFIX: z.string(),
@@ -28,6 +29,11 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) =>
             path.replace(new RegExp(`^${env.API_PATH_PREFIX}`), ''),
         },
+      },
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
       },
     },
   };

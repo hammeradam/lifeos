@@ -1,36 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { authClient } from '../auth';
+import { LoginForm } from '@/components/login-form';
+import { z } from 'zod';
+
+const redirectSchema = z.object({
+  redirect: z.string().optional(),
+});
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
+  validateSearch: redirectSchema,
 });
 
 function RouteComponent() {
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const asd = await authClient.signIn.email({ email, password });
-
-    console.log(asd);
-  };
-
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input type="email" name="email" />
-        </label>
-        <label>
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Login</button>
-      </form>
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+      </div>
     </div>
   );
 }

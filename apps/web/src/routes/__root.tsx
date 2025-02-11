@@ -1,35 +1,21 @@
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import type { authClient } from '@/auth';
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  auth: typeof authClient;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
 });
 
 function RootComponent() {
   return (
-    <>
-      <div className="p-2 flex gap-2 text-lg">
-        <Link
-          to="/"
-          activeProps={{
-            className: 'font-bold',
-          }}
-          activeOptions={{ exact: true }}
-        >
-          Home
-        </Link>{' '}
-        <Link
-          to="/about"
-          activeProps={{
-            className: 'font-bold',
-          }}
-        >
-          About
-        </Link>
-      </div>
-      <hr />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
-    </>
+    </ThemeProvider>
   );
 }

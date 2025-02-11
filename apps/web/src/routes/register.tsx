@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { authClient } from '../auth';
 import { ASD } from '@repo/api';
 
@@ -19,7 +19,11 @@ function RouteComponent() {
       name: 'test',
     });
 
-    console.log(asd);
+    if (asd.data) {
+      throw redirect({
+        to: '/',
+      });
+    }
   };
 
   return (
