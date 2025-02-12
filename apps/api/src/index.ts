@@ -1,19 +1,15 @@
 import { serve } from '@hono/node-server';
-import { TEST } from '@repo/test';
+// import { TEST } from '@repo/test';
 import { Hono } from 'hono';
-import { auth } from './auth.ts';
-import { env } from './env.ts';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { auth } from './auth.ts';
+import { env } from './env.ts';
+import { authMiddleware } from './middleware.ts';
+import type { CustomEnv } from './types.ts';
+import { ensureUser } from './utils.ts';
 
-export const ASD = 'ASD';
-
-const app = new Hono<{
-  Variables: {
-    user: typeof auth.$Infer.Session.user | null;
-    session: typeof auth.$Infer.Session.session | null;
-  };
-}>();
+const app = new Hono<CustomEnv>();
 
 app.use(logger());
 
@@ -28,25 +24,10 @@ app.use(
   }),
 );
 
-app.use('*', async (c, next) => {
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-
-  if (!session) {
-    c.set('user', null);
-    c.set('session', null);
-    return next();
-  }
-
-  c.set('user', session.user);
-  c.set('session', session.session);
-  return next();
-});
+app.use('*', authMiddleware);
 
 app.get('/me', (c) => {
-  const session = c.get('session');
-  const user = c.get('user');
-
-  if (!user) return c.body(null, 401);
+  const { user, session } = ensureUser(c);
 
   return c.json({
     user,
@@ -65,10 +46,26 @@ const server = serve({
   port,
 });
 
-process.on('SIGINT', async () => {
-  console.log('shutting down server');
+const cleanup = async () => {
+  console.log('Cleaning up...');
+};
+
+const shutdownGracefully = async () => {
+  console.log('Shutting down gracefully...');
+
+  await cleanup();
 
   server.close(async () => {
+    console.log('Server closed');
     process.exit(0);
   });
-});
+
+  // Force exit if cleanup takes too long
+  setTimeout(() => {
+    console.error('Force shutting down...');
+    process.exit(1);
+  }, 10000);
+};
+
+process.on('SIGTERM', shutdownGracefully);
+process.on('SIGINT', shutdownGracefully);
