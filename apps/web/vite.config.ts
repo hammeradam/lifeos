@@ -2,6 +2,7 @@ import path from 'node:path';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { type UserConfig, defineConfig, loadEnv } from 'vite';
+import { analyzer } from 'vite-bundle-analyzer';
 import { VitePWA } from 'vite-plugin-pwa';
 import { z } from 'zod';
 
@@ -10,8 +11,9 @@ export const envSchema = z.object({
   API_TARGET: z.string(),
 });
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+
   const config: UserConfig = {
     plugins: [
       TanStackRouterVite({}),
@@ -50,6 +52,14 @@ export default defineConfig(({ mode }) => {
       },
     },
   };
+
+  if (env.ANALYZE === 'true') {
+    config.plugins?.push(
+      analyzer({
+        analyzerMode: 'server',
+      }),
+    );
+  }
 
   if (mode === 'development') {
     const env = envSchema.parse(loadEnv(mode, process.cwd(), ''));

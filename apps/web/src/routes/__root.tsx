@@ -1,11 +1,19 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import type { authClient } from '@/auth';
+import React from 'react';
 
 // interface MyRouterContext {
 //   auth: typeof authClient;
 // }
+
+const TanStackRouterDevtools =
+  process.env.NODE_ENV === 'production'
+    ? () => null
+    : React.lazy(() =>
+        import('@tanstack/router-devtools').then((res) => ({
+          default: res.TanStackRouterDevtools,
+        })),
+      );
 
 export const Route = createRootRouteWithContext()({
   component: RootComponent,
