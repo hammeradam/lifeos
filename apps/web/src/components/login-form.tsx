@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { authClient } from '@/auth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -9,13 +9,9 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  useNavigate,
-  useRouteContext,
-  useRouter,
-} from '@tanstack/react-router';
+import { cn } from '@/lib/utils';
 import { Route } from '@/routes/login';
-import { authClient } from '@/auth';
+import { useNavigate } from '@tanstack/react-router';
 
 export function LoginForm({
   className,
@@ -30,7 +26,7 @@ export function LoginForm({
     const password = formData.get('password') as string;
 
     const response = await authClient.signIn.email({ email, password });
-    console.log(response, redirectTo);
+
     if (response.data) {
       navigate({
         to: redirectTo ?? '/',
@@ -64,7 +60,7 @@ export function LoginForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
-                    href="#"
+                    href="/"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
@@ -81,7 +77,7 @@ export function LoginForm({
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{' '}
-              <a href="#" className="underline underline-offset-4">
+              <a href="/" className="underline underline-offset-4">
                 Sign up
               </a>
             </div>

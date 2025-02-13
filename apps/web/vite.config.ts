@@ -16,7 +16,9 @@ export default defineConfig(({ mode }) => {
 
   const config: UserConfig = {
     plugins: [
-      TanStackRouterVite({}),
+      TanStackRouterVite({
+        autoCodeSplitting: true,
+      }),
       react(),
       VitePWA({
         registerType: 'autoUpdate',

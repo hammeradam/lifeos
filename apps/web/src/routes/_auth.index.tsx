@@ -1,28 +1,24 @@
-import { useState } from 'react';
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { authClient } from '@/auth';
+import { env } from '@/env';
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_auth/')({
   component: HomeComponent,
 });
 
-// const API_URL = 'http://localhost:3000/me';
-const API_URL = 'https://api.lifeos.ahammer.work/me';
-
 function HomeComponent() {
   const { data, isPending } = authClient.useSession();
+  const router = useRouter();
   const [test, setTest] = useState(null);
-  const navigate = useNavigate();
 
   const testApi = async () => {
-    const response = await fetch(API_URL, {
+    const response = await fetch(new URL('/me', env.VITE_API_BASE_URL), {
       credentials: 'include',
     });
     const data = await response.json();
     setTest(data);
   };
-
-  console.log(data);
 
   return (
     <div className="p-2">
@@ -30,7 +26,7 @@ function HomeComponent() {
       {isPending && <p>Loading...</p>}
       <Link to="/about">about</Link>
       <div>
-        {/* <p>Logged in as: {data!.user.email}</p> */}
+        <p>Logged in as: {data?.user.email}</p>
         <button type="button" onClick={testApi}>
           Test API
         </button>
@@ -39,7 +35,7 @@ function HomeComponent() {
           onClick={async () => {
             await authClient.signOut();
 
-            navigate({
+            router.navigate({
               to: '/login',
             });
           }}
