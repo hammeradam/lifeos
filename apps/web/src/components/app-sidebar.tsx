@@ -1,15 +1,3 @@
-import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from 'lucide-react';
-
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
 import { NavSecondary } from '@/components/nav-secondary';
@@ -23,7 +11,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { ModeToggle } from '@/components/mode-toggle';
+import {
+  BookOpen,
+  Bot,
+  Command,
+  Settings2,
+  SquareTerminal,
+} from 'lucide-react';
 
 const data = {
   user: {
@@ -119,28 +113,28 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: 'Support',
-      url: '#',
-      icon: LifeBuoy,
-    },
-    {
-      title: 'Feedback',
-      url: '#',
-      icon: Send,
-    },
+    // {
+    //   title: 'Support',
+    //   url: '#',
+    //   icon: LifeBuoy,
+    // },
+    // {
+    //   title: 'Feedback',
+    //   url: '#',
+    //   icon: Send,
+    // },
   ],
   projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
+    // {
+    //   name: 'Design Engineering',
+    //   url: '#',
+    //   icon: Frame,
+    // },
+    // {
+    //   name: 'Sales & Marketing',
+    //   url: '#',
+    //   icon: PieChart,
+    // },
   ],
 };
 
@@ -171,7 +165,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <ModeToggle />
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

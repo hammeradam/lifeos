@@ -14,10 +14,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_auth')({
   component: RouteComponent,
+  // pendingComponent: () => <>loading</>,
   beforeLoad: async ({ location }) => {
     const session = await authClient.getSession();
 

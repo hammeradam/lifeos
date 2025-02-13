@@ -5,6 +5,7 @@ import {
   createFileRoute,
   useRouter,
 } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/_auth/about')({
   component: AuthLayout,
@@ -13,7 +14,9 @@ export const Route = createFileRoute('/_auth/about')({
 function AuthLayout() {
   const router = useRouter();
   const navigate = Route.useNavigate();
+  const { t } = useTranslation();
 
+  // the hook
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       authClient.signOut().then(() => {
@@ -26,7 +29,12 @@ function AuthLayout() {
 
   return (
     <div className="p-2 h-full">
-      <h1>Authenticated Route</h1>
+      <h1>
+        {t('title', {
+          name: 'helle',
+          adsa: '',
+        })}
+      </h1>
       <p>This route's content is only visible to authenticated users.</p>
       <ul className="py-2 flex gap-2">
         <li>
